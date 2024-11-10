@@ -18,7 +18,7 @@ let patients = [
     gender: 'Male',
     tests: [
       {
-        date: '2024-11-01T10:00:00Z',
+        date: '2024-11-01',
         type: 'Blood Pressure',
         reading: '120/80 mmHg'
       }
