@@ -3,39 +3,54 @@ const mongoose = require('mongoose');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const patientRoutes = require('./routes/patientRoutes');
+require('dotenv').config();
 
+// Load environment variables
 dotenv.config();
 
-const app = express();a
-const PORT = process.env.PORT || 5001;
+// Constants
+const mongoURI = process.env.MONGO_URI;
+const PORT = process.env.PORT || 3000;
 
+// Initialize app
+const app = express();
+
+// Middleware
 app.use(express.json());
+app.use(
+  cors({
+    origin: ['https://patientdataapi-fjgqg3g5cvbse3av.canadacentral-01.azurewebsites.net'],
+  })
+);
 
-// Swagger setup
+// MongoDB Connection
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch((err) => console.error('MongoDB connection error:', err));
+
+// Swagger Setup
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
       title: 'Patient Data API',
       version: '1.0.0',
+      description: 'API documentation for the Patient Data API',
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`,
+        url: 'https://patientdataapi-fjgqg3g5cvbse3av.canadacentral-01.azurewebsites.net', // Azure Deployment URL
       },
     ],
   },
-  apis: ['./routes/*.js'],
+  apis: ['./routes/*.js'], // Adjust path if necessary
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
 app.use('/auth', authRoutes);
