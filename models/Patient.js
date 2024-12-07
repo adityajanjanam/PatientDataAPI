@@ -1,27 +1,18 @@
 const mongoose = require('mongoose');
 
-const PatientSchema = new mongoose.Schema({
-  patientId: {
-    type: Number,
-    unique: true,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  dob: {
-    type: Date,
-    required: true,
-  },
-  contact: {
-    type: String,
-    required: true,
-  },
-  medicalHistory: {
-    type: String,
-    required: true,
-  },
+const patientSchema = new mongoose.Schema({
+  patientId: { type: Number, required: true },
+  name: { type: String, required: true },
+  age: { type: Number, required: true },
+  gender: { type: String, required: true },
+  address: { type: String, required: true },
+  clinicalData: [
+    {
+      type: { type: String, required: true },
+      value: { type: String, required: true },
+      date: { type: Date, required: true },
+    },
+  ],
 });
 
-module.exports = mongoose.model('Patient', PatientSchema);
+module.exports = mongoose.model('Patient', patientSchema);

@@ -9,7 +9,7 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  await mongoose.connect(uri, { useNewUrlParser: true });
+  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 });
 
 afterAll(async () => {
@@ -25,11 +25,11 @@ describe('Patient Routes', () => {
   it('should add a new patient', async () => {
     const res = await request(app).post('/patients').send({
       name: 'Jane Doe',
-      dob: '1990-02-01',
-      contact: '9876543210',
-      medicalHistory: 'None',
+      age: 30,
+      gender: 'Female',
+      address: '456 Elm Street',
     });
-    expect(res.status).toBe(201);
-    expect(res.body.patient.name).toBe('Jane Doe');
+    expect(res.status).toBe(201); // Expect successful creation
+    expect(res.body.patient.name).toBe('Jane Doe'); // Verify name
   });
 });

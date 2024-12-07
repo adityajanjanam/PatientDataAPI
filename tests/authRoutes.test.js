@@ -29,3 +29,4 @@ describe('Authentication API Endpoints', () => {
     expect(response.body.message).toBe('Password reset link sent');
   });
 });
+2

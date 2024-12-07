@@ -1,7 +1,7 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../app'); 
-const Patient = require('../models/Patient'); 
+const app = require('../app');
+const Patient = require('../models/Patient');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongoServer;
@@ -17,28 +17,33 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
-  await Patient.deleteMany(); 
+  await Patient.deleteMany(); // Clear database before each test
 });
 
 describe('Patient Routes', () => {
-  test('POST /patients - Add New Patient', async () => {
-    const response = await request(app).post('/patients').send({
+  test('POST /patients - Debugging Test', async () => {
+    const payload = {
       name: 'John Doe',
-      dob: '1990-01-01',
-      contact: '1234567890',
-      medicalHistory: 'None',
-    });
+      age: 30,
+      gender: 'Male',
+      address: '123 Main Street',
+    };
+    console.log('Sending Payload:', payload);
+  
+    const response = await request(app).post('/patients').send(payload);
+    console.log('Response:', response.body);
+  
     expect(response.status).toBe(201);
-    expect(response.body.patient.name).toBe('John Doe');
+    expect(response.body.patient.name).toBe('Jane Doe'); // Intentional failure: Expected name does not match
   });
 
   test('GET /patients - Get All Patients', async () => {
     await Patient.create({
       patientId: 1,
       name: 'Jane Doe',
-      dob: '1990-01-01',
-      contact: '1234567890',
-      medicalHistory: 'Asthma',
+      age: 25,
+      gender: 'Female',
+      address: '456 Elm Street',
     });
 
     const response = await request(app).get('/patients');
@@ -50,9 +55,9 @@ describe('Patient Routes', () => {
     const patient = await Patient.create({
       patientId: 1,
       name: 'Jane Doe',
-      dob: '1990-01-01',
-      contact: '1234567890',
-      medicalHistory: 'Asthma',
+      age: 25,
+      gender: 'Female',
+      address: '456 Elm Street',
     });
 
     const response = await request(app).get(`/patients/${patient.patientId}`);
@@ -64,25 +69,25 @@ describe('Patient Routes', () => {
     const patient = await Patient.create({
       patientId: 1,
       name: 'Jane Doe',
-      dob: '1990-01-01',
-      contact: '1234567890',
-      medicalHistory: 'Asthma',
+      age: 25,
+      gender: 'Female',
+      address: '456 Elm Street',
     });
 
     const response = await request(app).put(`/patients/${patient.patientId}`).send({
-      contact: '9876543210',
+      age: 30,
     });
     expect(response.status).toBe(200);
-    expect(response.body.patient.contact).toBe('9876543210');
+    expect(response.body.patient.age).toBe(30);
   });
 
   test('DELETE /patients/:patientId - Delete Patient', async () => {
     const patient = await Patient.create({
       patientId: 1,
       name: 'Jane Doe',
-      dob: '1990-01-01',
-      contact: '1234567890',
-      medicalHistory: 'Asthma',
+      age: 25,
+      gender: 'Female',
+      address: '456 Elm Street',
     });
 
     const response = await request(app).delete(`/patients/${patient.patientId}`);

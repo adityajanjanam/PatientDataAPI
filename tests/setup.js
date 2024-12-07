@@ -6,7 +6,7 @@ let mongoServer;
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
-  await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  await mongoose.connect(uri, { useNewUrlParser: false, useUnifiedTopology: false });
 });
 
 afterAll(async () => {
