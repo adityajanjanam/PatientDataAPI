@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const patientRoutes = require('./routes/patientRoutes');
-const Patient = require('./models/Patient'); // Patient model for additional routes
+const Patient = require('./models/Patient'); 
 
 dotenv.config();
 
@@ -27,8 +27,8 @@ app.use(cors({
 
 // MongoDB Connection
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to local MongoDB'))
+  .connect(mongoURI)
+  .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Swagger Setup
@@ -42,11 +42,11 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`, // Ensure the server URL matches the running port
+        url: `http://localhost:${PORT}`, 
       },
     ],
   },
-  apis: ['./routes/*.js', './models/*.js'], // Include routes and models for Swagger
+  apis: ['./routes/*.js', './models/*.js'], 
 };
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));

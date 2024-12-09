@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1733580781863" clover="3.2.0">
-  <project timestamp="1733580781864" name="All files">
+<coverage generated="1733701868608" clover="3.2.0">
+  <project timestamp="1733701868608" name="All files">
     <metrics statements="73" coveredstatements="56" conditionals="14" coveredconditionals="4" methods="9" coveredmethods="8" elements="96" coveredelements="68" complexity="0" loc="73" ncloc="73" packages="3" files="4" classes="4"/>
     <package name="PatientDataAPI">
       <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
